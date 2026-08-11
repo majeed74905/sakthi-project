@@ -6,6 +6,7 @@ import Button from '../../components/common/Button';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import * as adminService from '../../services/adminService';
 import toast from 'react-hot-toast';
+import { FileText, Save } from 'lucide-react';
 
 export function CmsPagesManagement() {
   const [pages, setPages] = useState([]);
@@ -64,39 +65,49 @@ export function CmsPagesManagement() {
   };
 
   return (
-    <PageContainer title="CMS Legal & Informational Pages" subtitle="Edit Terms & Conditions, Privacy Policy, and Who We Are text">
-      <div className="flex gap-2 mb-6">
-        {['who-we-are', 'terms', 'privacy'].map((slug) => (
+    <PageContainer title="CMS Content & Legal Governance" subtitle="Manage static content pages for Who We Are, Terms & Conditions, and Privacy Policy">
+      {/* Slug Selection Pills */}
+      <div className="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md mb-8 flex flex-wrap gap-3">
+        {[
+          { slug: 'who-we-are', label: 'Who We Are' },
+          { slug: 'terms', label: 'Terms & Conditions' },
+          { slug: 'privacy', label: 'Privacy Policy' }
+        ].map((item) => (
           <button
-            key={slug}
-            onClick={() => setSelectedSlug(slug)}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
-              selectedSlug === slug ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+            key={item.slug}
+            onClick={() => setSelectedSlug(item.slug)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm ${
+              selectedSlug === item.slug
+                ? 'bg-rose-600 text-white shadow-lg shadow-rose-900/40 border border-rose-500/30'
+                : 'bg-slate-950 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:text-white'
             }`}
           >
-            {slug === 'who-we-are' ? 'Who We Are' : slug === 'terms' ? 'Terms & Conditions' : 'Privacy Policy'}
+            <FileText className="w-4 h-4" />
+            {item.label}
           </button>
         ))}
       </div>
 
       {loading ? (
-        <LoadingSpinner />
+        <div className="p-12 flex justify-center">
+          <LoadingSpinner />
+        </div>
       ) : (
-        <Card className="p-8 bg-slate-800 border-slate-700 space-y-6 text-white">
-          <form onSubmit={handleSave} className="space-y-4">
+        <Card variant="dark" className="p-8 space-y-6">
+          <form onSubmit={handleSave} className="space-y-5 text-slate-200">
             <Input
+              variant="dark"
               label="Page Header Title *"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="bg-slate-900 border-slate-700 text-white"
               required
             />
 
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-300 uppercase">Page Content *</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Page Body Content (Markdown / HTML) *</label>
               <textarea
                 rows={12}
-                className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:ring-2 focus:ring-rose-500 outline-none leading-relaxed"
+                className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-xs text-white placeholder-slate-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 leading-relaxed font-mono"
                 placeholder="Enter CMS page content text..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -104,9 +115,12 @@ export function CmsPagesManagement() {
               />
             </div>
 
-            <Button type="submit" variant="brand" disabled={saving} className="font-bold text-xs">
-              {saving ? 'Publishing...' : 'Publish Content Updates'}
-            </Button>
+            <div className="pt-2 flex justify-end">
+              <Button type="submit" variant="brand" disabled={saving} className="text-xs font-bold uppercase tracking-wider py-3 px-6">
+                <Save className="w-4 h-4 mr-2" />
+                {saving ? 'Publishing...' : 'Publish Content Updates'}
+              </Button>
+            </div>
           </form>
         </Card>
       )}

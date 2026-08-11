@@ -7,7 +7,7 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import * as adminService from '../../services/adminService';
 import { exportToCsv } from '../../utils/exportCsv';
 import toast from 'react-hot-toast';
-import { Search, Download } from 'lucide-react';
+import { Search, Download, Users, ShieldCheck, UserX, CheckCircle } from 'lucide-react';
 
 export function MembersManagement() {
   const [members, setMembers] = useState([]);
@@ -65,101 +65,169 @@ export function MembersManagement() {
   };
 
   return (
-    <PageContainer title="Associate Member Management" subtitle="Audit accounts, sponsor relationships, and toggle member status">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-        <div className="w-full sm:w-80">
-          <Input
-            placeholder="Search User Code, Name, Email..."
-            value={search}
-            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            icon={Search}
-          />
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="flex gap-2">
-            {['', 'ACTIVE', 'PENDING', 'SUSPENDED'].map((s) => (
-              <button
-                key={s}
-                onClick={() => { setStatus(s); setPage(1); }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
-                  status === s ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                }`}
-              >
-                {s || 'All Status'}
-              </button>
-            ))}
+    <PageContainer title="Associate Member Governance" subtitle="Audit distributor accounts, downline sponsor relationships, and manage account statuses">
+      {/* Top Filter & Action Bar */}
+      <div className="p-6 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md mb-8 space-y-4">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          {/* Search Input */}
+          <div className="w-full md:w-96">
+            <Input
+              variant="dark"
+              placeholder="Search User Code, Name, Email, Mobile..."
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+              icon={Search}
+            />
           </div>
 
-          <Button variant="outline" onClick={handleExportCsv} className="text-xs font-bold text-slate-300 border-slate-700">
-            <Download className="w-4 h-4 mr-2" /> Export CSV
-          </Button>
+          {/* Status Filter Buttons */}
+          <div className="flex flex-wrap items-center gap-2">
+            {[
+              { label: 'All Status', value: '' },
+              { label: 'ACTIVE', value: 'ACTIVE' },
+              { label: 'PENDING', value: 'PENDING' },
+              { label: 'SUSPENDED', value: 'SUSPENDED' }
+            ].map((s) => (
+              <button
+                key={s.value}
+                onClick={() => { setStatus(s.value); setPage(1); }}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-sm ${
+                  status === s.value
+                    ? 'bg-rose-600 text-white shadow-rose-900/40 border border-rose-500/30'
+                    : 'bg-slate-950 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:text-white'
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+
+            <Button
+              variant="outline"
+              onClick={handleExportCsv}
+              className="text-xs font-bold text-slate-200 border-slate-700 bg-slate-950 hover:bg-slate-800 hover:text-white transition py-2"
+            >
+              <Download className="w-4 h-4 mr-2 text-rose-400" /> Export CSV
+            </Button>
+          </div>
         </div>
       </div>
 
+      {/* Main Data Table */}
       {loading ? (
-        <LoadingSpinner />
+        <div className="p-12 flex justify-center">
+          <LoadingSpinner />
+        </div>
       ) : (
-        <div className="space-y-4">
-          <Table headers={['User Code', 'Full Name', 'Email / Phone', 'Role', 'Sponsor Code', 'Status', 'Actions']}>
-            {members.map((m) => (
-              <tr key={m.id} className="hover:bg-slate-800/50 transition border-b border-slate-800 text-xs text-slate-300">
-                <td className="px-6 py-4 font-mono font-bold text-rose-400">{m.userCode}</td>
-                <td className="px-6 py-4 font-bold text-white">{m.fullName}</td>
-                <td className="px-6 py-4 text-slate-400">
-                  <p>{m.email}</p>
-                  <p className="text-[10px] text-slate-500">{m.phone}</p>
-                </td>
-                <td className="px-6 py-4 font-semibold text-slate-400">{m.role}</td>
-                <td className="px-6 py-4 font-mono text-amber-400">{m.sponsor?.userCode || 'Root'}</td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                      m.status === 'ACTIVE'
-                        ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
-                        : m.status === 'SUSPENDED'
-                        ? 'bg-rose-950 text-rose-400 border border-rose-800'
-                        : 'bg-amber-950 text-amber-400 border border-amber-800'
-                    }`}
-                  >
-                    {m.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 flex gap-2">
-                  {m.status !== 'ACTIVE' && (
-                    <button
-                      onClick={() => handleStatusChange(m.id, 'ACTIVE')}
-                      className="p-1.5 bg-emerald-900/50 text-emerald-400 hover:bg-emerald-800 rounded font-bold text-[10px]"
-                      title="Activate"
-                    >
-                      Activate
-                    </button>
-                  )}
-                  {m.status !== 'SUSPENDED' && (
-                    <button
-                      onClick={() => handleStatusChange(m.id, 'SUSPENDED')}
-                      className="p-1.5 bg-rose-900/50 text-rose-400 hover:bg-rose-800 rounded font-bold text-[10px]"
-                      title="Suspend"
-                    >
-                      Suspend
-                    </button>
-                  )}
+        <div className="space-y-6">
+          <Table
+            variant="dark"
+            headers={['USER CODE', 'FULL NAME', 'EMAIL / PHONE', 'ROLE', 'SPONSOR CODE', 'STATUS', 'ACTIONS']}
+          >
+            {members.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="px-6 py-12 text-center text-slate-500 text-sm">
+                  No associate members found matching your filter criteria.
                 </td>
               </tr>
-            ))}
+            ) : (
+              members.map((m) => (
+                <tr key={m.id} className="hover:bg-slate-800/60 transition-colors border-b border-slate-800/60 text-xs">
+                  <td className="px-6 py-4 font-mono font-bold text-rose-400">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-3.5 h-3.5 text-rose-500/70" />
+                      <span>{m.userCode}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 font-bold text-white text-sm">{m.fullName}</td>
+                  <td className="px-6 py-4">
+                    <p className="text-slate-200 font-medium">{m.email}</p>
+                    <p className="text-[11px] font-mono text-slate-400 mt-0.5">{m.phone}</p>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold font-mono tracking-wider ${
+                      m.role === 'ADMIN' || m.role === 'SUPER_ADMIN'
+                        ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                        : 'bg-slate-800 text-slate-300 border border-slate-700'
+                    }`}>
+                      {m.role}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 font-mono font-bold text-amber-400">
+                    {m.sponsor?.userCode ? (
+                      <span className="px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+                        {m.sponsor.userCode}
+                      </span>
+                    ) : (
+                      <span className="text-slate-400">Direct / Root</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase ${
+                        m.status === 'ACTIVE'
+                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                          : m.status === 'SUSPENDED'
+                          ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                          : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${
+                        m.status === 'ACTIVE' ? 'bg-emerald-400' : m.status === 'SUSPENDED' ? 'bg-rose-400' : 'bg-amber-400'
+                      }`} />
+                      {m.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      {m.status !== 'ACTIVE' && (
+                        <button
+                          onClick={() => handleStatusChange(m.id, 'ACTIVE')}
+                          className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] rounded-xl transition shadow-md shadow-emerald-950/50"
+                          title="Activate Account"
+                        >
+                          <CheckCircle className="w-3.5 h-3.5" /> Activate
+                        </button>
+                      )}
+                      {m.status !== 'SUSPENDED' && (
+                        <button
+                          onClick={() => handleStatusChange(m.id, 'SUSPENDED')}
+                          className="flex items-center gap-1 px-3 py-1.5 bg-rose-600/90 hover:bg-rose-500 text-white font-bold text-[11px] rounded-xl transition shadow-md shadow-rose-950/50"
+                          title="Suspend Account"
+                        >
+                          <UserX className="w-3.5 h-3.5" /> Suspend
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </Table>
 
+          {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 pt-4">
-              <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
-                Previous
-              </Button>
-              <span className="text-xs font-bold text-slate-400 px-4">
-                Page {page} of {totalPages}
+            <div className="flex justify-between items-center px-4 py-3 bg-slate-900/90 rounded-2xl border border-slate-800">
+              <span className="text-xs font-bold text-slate-400 font-mono">
+                Showing Page <span className="text-white">{page}</span> of <span className="text-white">{totalPages}</span>
               </span>
-              <Button variant="outline" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
-                Next
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  className="text-xs font-bold text-slate-300 border-slate-700 bg-slate-950 hover:bg-slate-800 py-1.5"
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  disabled={page >= totalPages}
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  className="text-xs font-bold text-slate-300 border-slate-700 bg-slate-950 hover:bg-slate-800 py-1.5"
+                >
+                  Next
+                </Button>
+              </div>
             </div>
           )}
         </div>

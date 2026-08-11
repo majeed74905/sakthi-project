@@ -108,84 +108,87 @@ export function EmailLogsManagement() {
   };
 
   return (
-    <PageContainer title="Email Delivery & Failure Management" subtitle="Audit Nodemailer transactional logs, monitor SMTP connection health, and resend failed emails">
+    <PageContainer title="Email Delivery & Failure Audit (Phase 10)" subtitle="Audit Nodemailer transactional logs, monitor SMTP connection health, and resend failed emails">
       {/* SMTP Connection Diagnostic Banner */}
       {smtpStatus && (
-        <div className={`p-4 mb-6 rounded-xl flex items-center justify-between border text-xs font-semibold ${
+        <div className={`p-5 mb-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between border shadow-xl backdrop-blur-md gap-4 text-xs font-semibold ${
           smtpStatus.connection === 'healthy'
-            ? 'bg-emerald-950/40 border-emerald-800 text-emerald-300'
-            : 'bg-amber-950/40 border-amber-800 text-amber-300'
+            ? 'bg-emerald-950/60 border-emerald-800/80 text-emerald-300'
+            : 'bg-amber-950/60 border-amber-800/80 text-amber-300'
         }`}>
-          <div className="flex items-center gap-3">
-            <ShieldCheck className="w-5 h-5 text-emerald-400" />
+          <div className="flex items-center gap-3.5">
+            <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
             <div>
-              <p className="font-bold">SMTP Connection Status: <span className="uppercase font-mono">{smtpStatus.connection}</span></p>
-              <p className="text-[11px] opacity-80">Host: {smtpStatus.host}:{smtpStatus.port} — Provider: {smtpStatus.provider}</p>
+              <p className="font-bold text-sm text-white">SMTP Connection Status: <span className="uppercase font-mono text-emerald-400">{smtpStatus.connection}</span></p>
+              <p className="text-xs text-slate-400 font-mono mt-0.5">Host: {smtpStatus.host}:{smtpStatus.port} — Provider: {smtpStatus.provider}</p>
             </div>
           </div>
-          <Button variant="outline" size="sm" onClick={() => setTestModalOpen(true)} className="text-xs font-bold border-slate-700">
+          <Button variant="outline" size="sm" onClick={() => setTestModalOpen(true)} className="text-xs font-bold border-emerald-700 bg-emerald-950 text-emerald-300 hover:bg-emerald-900 py-2">
             <Send className="w-3.5 h-3.5 mr-1.5" /> Test SMTP Setup
           </Button>
         </div>
       )}
 
-      {/* 4 Summary Stat Cards */}
+      {/* 5 Summary Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-        <Card className="p-4 bg-slate-900 border-slate-800 text-white">
+        <Card variant="dark" className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase">Total Emails</p>
-              <h3 className="text-xl font-black mt-0.5">{stats.totalEmails || 0}</h3>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Emails</p>
+              <h3 className="text-2xl font-black text-white mt-1">{stats.totalEmails || 0}</h3>
             </div>
-            <Mail className="w-5 h-5 text-slate-400" />
+            <Mail className="w-6 h-6 text-slate-400" />
           </div>
         </Card>
 
-        <Card className="p-4 bg-emerald-950/40 border-emerald-900/60 text-emerald-300">
+        <Card variant="dark" className="p-4 border-emerald-900/60 bg-emerald-950/40">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold text-emerald-400 uppercase">Sent Successfully</p>
-              <h3 className="text-xl font-black mt-0.5">{stats.sentCount || 0}</h3>
+              <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Sent Successfully</p>
+              <h3 className="text-2xl font-black text-emerald-400 mt-1">{stats.sentCount || 0}</h3>
             </div>
-            <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+            <CheckCircle2 className="w-6 h-6 text-emerald-400" />
           </div>
         </Card>
 
-        <Card className="p-4 bg-rose-950/40 border-rose-900/60 text-rose-300">
+        <Card variant="dark" className="p-4 border-rose-900/60 bg-rose-950/40">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold text-rose-400 uppercase">Failed Delivery</p>
-              <h3 className="text-xl font-black mt-0.5">{stats.failedCount || 0}</h3>
+              <p className="text-[10px] font-bold text-rose-400 uppercase tracking-wider">Failed Delivery</p>
+              <h3 className="text-2xl font-black text-rose-400 mt-1">{stats.failedCount || 0}</h3>
             </div>
-            <AlertCircle className="w-5 h-5 text-rose-400" />
+            <AlertCircle className="w-6 h-6 text-rose-400" />
           </div>
         </Card>
 
-        <Card className="p-4 bg-amber-950/40 border-amber-900/60 text-amber-300">
+        <Card variant="dark" className="p-4 border-amber-900/60 bg-amber-950/40">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold text-amber-400 uppercase">Pending</p>
-              <h3 className="text-xl font-black mt-0.5">{stats.pendingCount || 0}</h3>
+              <p className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Pending</p>
+              <h3 className="text-2xl font-black text-amber-400 mt-1">{stats.pendingCount || 0}</h3>
             </div>
-            <Clock className="w-5 h-5 text-amber-400" />
+            <Clock className="w-6 h-6 text-amber-400" />
           </div>
         </Card>
 
-        <Card className="p-4 bg-blue-950/40 border-blue-900/60 text-blue-300">
+        <Card variant="dark" className="p-4 border-sky-900/60 bg-sky-950/40">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold text-blue-400 uppercase">Retrying</p>
-              <h3 className="text-xl font-black mt-0.5">{stats.retryingCount || 0}</h3>
+              <p className="text-[10px] font-bold text-sky-400 uppercase tracking-wider">Retrying</p>
+              <h3 className="text-2xl font-black text-sky-400 mt-1">{stats.retryingCount || 0}</h3>
             </div>
-            <RefreshCw className="w-5 h-5 text-blue-400" />
+            <RefreshCw className="w-6 h-6 text-sky-400" />
           </div>
         </Card>
       </div>
 
       {/* Filter Toolbar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+      <div className="p-6 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="w-full md:w-80">
           <Input
+            variant="dark"
             placeholder="Search Recipient, Subject, Code..."
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
@@ -195,21 +198,29 @@ export function EmailLogsManagement() {
 
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex gap-1.5">
-            {['', 'SENT', 'FAILED', 'PENDING', 'RETRYING'].map((s) => (
+            {[
+              { label: 'All Status', value: '' },
+              { label: 'SENT', value: 'SENT' },
+              { label: 'FAILED', value: 'FAILED' },
+              { label: 'PENDING', value: 'PENDING' },
+              { label: 'RETRYING', value: 'RETRYING' }
+            ].map((s) => (
               <button
-                key={s}
-                onClick={() => { setStatus(s); setPage(1); }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
-                  status === s ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                key={s.value}
+                onClick={() => { setStatus(s.value); setPage(1); }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                  status === s.value
+                    ? 'bg-rose-600 text-white shadow-lg shadow-rose-900/40 border border-rose-500/30'
+                    : 'bg-slate-950 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:text-white'
                 }`}
               >
-                {s || 'All Status'}
+                {s.label}
               </button>
             ))}
           </div>
 
           {stats.failedCount > 0 && (
-            <Button variant="accent" onClick={handleRetryAllFailed} className="text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white">
+            <Button variant="accent" onClick={handleRetryAllFailed} className="text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white py-1.5 px-4">
               <RefreshCw className="w-3.5 h-3.5 mr-1.5" /> Retry All Failed ({stats.failedCount})
             </Button>
           )}
@@ -218,65 +229,99 @@ export function EmailLogsManagement() {
 
       {/* Email Logs Table */}
       {loading ? (
-        <LoadingSpinner />
+        <div className="p-12 flex justify-center">
+          <LoadingSpinner />
+        </div>
       ) : (
-        <div className="space-y-4">
-          <Table headers={['Recipient', 'Subject', 'Type', 'Status', 'Attempts', 'Last Attempt', 'Actions']}>
-            {logs.map((log) => (
-              <tr key={log.id} className="hover:bg-slate-800/50 transition border-b border-slate-800 text-xs text-slate-300">
-                <td className="px-6 py-4 font-mono font-bold text-white">{log.recipient}</td>
-                <td className="px-6 py-4 font-semibold text-slate-200">{log.subject}</td>
-                <td className="px-6 py-4 font-mono text-[10px] text-slate-400">{log.emailType}</td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                      log.status === 'SENT'
-                        ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
-                        : log.status === 'FAILED'
-                        ? 'bg-rose-950 text-rose-400 border border-rose-800'
-                        : log.status === 'RETRYING'
-                        ? 'bg-blue-950 text-blue-400 border border-blue-800'
-                        : 'bg-amber-950 text-amber-400 border border-amber-800'
-                    }`}
-                  >
-                    {log.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 font-bold text-slate-300">{log.attemptCount}</td>
-                <td className="px-6 py-4 text-slate-500 text-[11px]">
-                  {log.lastAttemptAt ? new Date(log.lastAttemptAt).toLocaleString('en-IN') : 'N/A'}
-                </td>
-                <td className="px-6 py-4 flex gap-2">
-                  <button
-                    onClick={() => setSelectedLog(log)}
-                    className="p-1.5 bg-slate-800 text-slate-300 hover:bg-slate-700 rounded font-bold text-[10px]"
-                  >
-                    View Details
-                  </button>
-                  {log.status === 'FAILED' && (
-                    <button
-                      onClick={() => handleRetrySingle(log.id)}
-                      className="p-1.5 bg-rose-900/60 text-rose-300 hover:bg-rose-800 rounded font-bold text-[10px] flex items-center gap-1"
-                    >
-                      <RefreshCw className="w-3 h-3" /> Retry
-                    </button>
-                  )}
+        <div className="space-y-6">
+          <Table
+            variant="dark"
+            headers={['RECIPIENT', 'SUBJECT', 'EMAIL TYPE', 'STATUS', 'ATTEMPTS', 'LAST ATTEMPT', 'ACTIONS']}
+          >
+            {logs.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="px-6 py-12 text-center text-slate-500 text-sm">
+                  No email delivery logs matching your filter criteria.
                 </td>
               </tr>
-            ))}
+            ) : (
+              logs.map((log) => (
+                <tr key={log.id} className="hover:bg-slate-800/60 transition-colors border-b border-slate-800/60 text-xs">
+                  <td className="px-6 py-4 font-mono font-bold text-white text-xs">{log.recipient}</td>
+                  <td className="px-6 py-4 font-semibold text-slate-200">{log.subject}</td>
+                  <td className="px-6 py-4">
+                    <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[10px] text-slate-300">
+                      {log.emailType}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase ${
+                        log.status === 'SENT'
+                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                          : log.status === 'FAILED'
+                          ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                          : log.status === 'RETRYING'
+                          ? 'bg-sky-500/10 text-sky-400 border border-sky-500/20'
+                          : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${
+                        log.status === 'SENT' ? 'bg-emerald-400' : log.status === 'FAILED' ? 'bg-rose-400' : log.status === 'RETRYING' ? 'bg-sky-400' : 'bg-amber-400'
+                      }`} />
+                      {log.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 font-bold text-slate-300 font-mono">{log.attemptCount}</td>
+                  <td className="px-6 py-4 text-slate-400 font-mono text-[11px]">
+                    {log.lastAttemptAt ? new Date(log.lastAttemptAt).toLocaleString('en-IN') : 'N/A'}
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setSelectedLog(log)}
+                        className="px-3 py-1.5 bg-slate-800 text-slate-200 hover:bg-slate-700 rounded-xl font-bold text-[11px] transition border border-slate-700"
+                      >
+                        Details
+                      </button>
+                      {log.status === 'FAILED' && (
+                        <button
+                          onClick={() => handleRetrySingle(log.id)}
+                          className="flex items-center gap-1 px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-xl font-bold text-[11px] transition shadow-md"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" /> Retry
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </Table>
 
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 pt-4">
-              <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
-                Previous
-              </Button>
-              <span className="text-xs font-bold text-slate-400 px-4">
-                Page {page} of {totalPages}
+            <div className="flex justify-between items-center px-4 py-3 bg-slate-900/90 rounded-2xl border border-slate-800">
+              <span className="text-xs font-bold text-slate-400 font-mono">
+                Page <span className="text-white">{page}</span> of <span className="text-white">{totalPages}</span>
               </span>
-              <Button variant="outline" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
-                Next
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  className="text-xs font-bold text-slate-300 border-slate-700 bg-slate-950 hover:bg-slate-800 py-1.5"
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  disabled={page >= totalPages}
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  className="text-xs font-bold text-slate-300 border-slate-700 bg-slate-950 hover:bg-slate-800 py-1.5"
+                >
+                  Next
+                </Button>
+              </div>
             </div>
           )}
         </div>
@@ -284,27 +329,27 @@ export function EmailLogsManagement() {
 
       {/* Log Details Modal */}
       <Modal isOpen={!!selectedLog} onClose={() => setSelectedLog(null)} title="Email Delivery Audit Details">
-        <div className="space-y-4 text-xs text-slate-300">
-          <div className="p-4 bg-slate-900 rounded-xl space-y-2 font-mono">
-            <p><strong>Log ID:</strong> {selectedLog?.id}</p>
-            <p><strong>Recipient:</strong> {selectedLog?.recipient}</p>
-            <p><strong>Subject:</strong> {selectedLog?.subject}</p>
-            <p><strong>Email Type:</strong> {selectedLog?.emailType}</p>
-            <p><strong>Delivery Status:</strong> {selectedLog?.status}</p>
-            <p><strong>Attempts:</strong> {selectedLog?.attemptCount}</p>
-            <p><strong>Sent At:</strong> {selectedLog?.sentAt ? new Date(selectedLog.sentAt).toLocaleString('en-IN') : 'N/A'}</p>
+        <div className="space-y-4 text-xs text-slate-200">
+          <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2 font-mono">
+            <p><strong className="text-white">Log ID:</strong> {selectedLog?.id}</p>
+            <p><strong className="text-white">Recipient:</strong> {selectedLog?.recipient}</p>
+            <p><strong className="text-white">Subject:</strong> {selectedLog?.subject}</p>
+            <p><strong className="text-white">Email Type:</strong> {selectedLog?.emailType}</p>
+            <p><strong className="text-white">Delivery Status:</strong> {selectedLog?.status}</p>
+            <p><strong className="text-white">Attempts:</strong> {selectedLog?.attemptCount}</p>
+            <p><strong className="text-white">Sent At:</strong> {selectedLog?.sentAt ? new Date(selectedLog.sentAt).toLocaleString('en-IN') : 'N/A'}</p>
           </div>
 
           {selectedLog?.status === 'FAILED' && (
-            <div className="p-4 bg-rose-950/50 border border-rose-800 rounded-xl space-y-2 text-rose-300">
-              <p className="font-bold uppercase text-[10px]">Sanitized Failure Diagnostics</p>
-              <p><strong>Error Code:</strong> {selectedLog.errorCode || 'UNKNOWN_ERROR'}</p>
-              <p className="text-xs font-mono break-all"><strong>Error Message:</strong> {selectedLog.errorMessage || 'SMTP connection rejected'}</p>
+            <div className="p-4 bg-rose-950/60 border border-rose-800 rounded-2xl space-y-2 text-rose-300">
+              <p className="font-bold uppercase text-[10px] tracking-wider text-rose-400">Sanitized Failure Diagnostics</p>
+              <p><strong className="text-white">Error Code:</strong> {selectedLog.errorCode || 'UNKNOWN_ERROR'}</p>
+              <p className="text-xs font-mono break-all"><strong className="text-white">Error Message:</strong> {selectedLog.errorMessage || 'SMTP connection rejected'}</p>
             </div>
           )}
 
           <div className="pt-2 flex justify-end gap-3">
-            <Button variant="outline" onClick={() => setSelectedLog(null)}>
+            <Button variant="outline" onClick={() => setSelectedLog(null)} className="text-xs font-bold border-slate-700 bg-slate-900 text-slate-300">
               Close
             </Button>
             {selectedLog?.status === 'FAILED' && (
@@ -315,7 +360,7 @@ export function EmailLogsManagement() {
                   setSelectedLog(null);
                   handleRetrySingle(id);
                 }}
-                className="bg-rose-600 hover:bg-rose-700 text-white"
+                className="bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold uppercase tracking-wider px-5"
               >
                 <RefreshCw className="w-3.5 h-3.5 mr-1.5" /> Retry Delivery Now
               </Button>
@@ -326,11 +371,12 @@ export function EmailLogsManagement() {
 
       {/* Test SMTP Setup Modal */}
       <Modal isOpen={testModalOpen} onClose={() => setTestModalOpen(false)} title="Test Nodemailer SMTP Setup">
-        <form onSubmit={handleSendTestEmail} className="space-y-4">
+        <form onSubmit={handleSendTestEmail} className="space-y-4 text-slate-200">
           <p className="text-xs text-slate-400">
             Dispatch a test email to verify your SMTP server parameters (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`).
           </p>
           <Input
+            variant="dark"
             label="Recipient Email Address *"
             type="email"
             placeholder="e.g. admin@mysakthimarketing.in"
@@ -340,10 +386,10 @@ export function EmailLogsManagement() {
           />
 
           <div className="pt-2 flex justify-end gap-3">
-            <Button type="button" variant="outline" onClick={() => setTestModalOpen(false)}>
+            <Button type="button" variant="outline" onClick={() => setTestModalOpen(false)} className="text-xs font-bold border-slate-700 bg-slate-900 text-slate-300">
               Cancel
             </Button>
-            <Button type="submit" variant="brand" disabled={testSending}>
+            <Button type="submit" variant="brand" disabled={testSending} className="text-xs font-bold uppercase tracking-wider px-6">
               {testSending ? 'Dispatching...' : 'Send Test Email'}
             </Button>
           </div>

@@ -7,7 +7,7 @@ import Modal from '../../components/common/Modal';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import * as adminService from '../../services/adminService';
 import toast from 'react-hot-toast';
-import { Package, Plus, Trash2, Edit } from 'lucide-react';
+import { Package, Plus, Trash2, Edit, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export function ProductsManagement() {
   const [products, setProducts] = useState([]);
@@ -104,33 +104,64 @@ export function ProductsManagement() {
   };
 
   return (
-    <PageContainer title="Product Catalogue CMS" subtitle="Create, edit, and manage household appliances catalogue">
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="font-bold text-white text-sm">Listed Appliance Items</h3>
-        <Button variant="brand" onClick={handleOpenAdd} className="text-xs font-bold">
+    <PageContainer title="Product Catalogue Governance" subtitle="Manage household appliance inventory items, categories, pricing, and homepage features">
+      <div className="p-6 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 className="font-bold text-white text-base">Appliance Inventory List</h3>
+          <p className="text-xs text-slate-400">Total active products: {products.length}</p>
+        </div>
+        <Button variant="brand" onClick={handleOpenAdd} className="text-xs font-bold uppercase tracking-wider py-2.5 px-5">
           <Plus className="w-4 h-4 mr-2" /> Add New Appliance
         </Button>
       </div>
 
       {loading ? (
-        <LoadingSpinner />
+        <div className="p-12 flex justify-center">
+          <LoadingSpinner />
+        </div>
       ) : (
-        <Table headers={['Product Name', 'Category', 'Price (₹)', 'Stock', 'Featured', 'Actions']}>
+        <Table
+          variant="dark"
+          headers={['PRODUCT NAME', 'CATEGORY', 'PRICE (₹)', 'STOCK COUNT', 'FEATURED', 'ACTIONS']}
+        >
           {products.map((p) => (
-            <tr key={p.id} className="hover:bg-slate-800/50 border-b border-slate-800 text-xs text-slate-300">
-              <td className="px-6 py-4 font-bold text-white">{p.name}</td>
-              <td className="px-6 py-4 text-slate-400">{p.category?.name}</td>
-              <td className="px-6 py-4 font-black text-amber-400">₹{p.price?.toLocaleString('en-IN')}</td>
-              <td className="px-6 py-4 font-mono text-slate-400">{p.stock}</td>
-              <td className="px-6 py-4">
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${p.isFeatured ? 'bg-amber-950 text-amber-400 border border-amber-800' : 'bg-slate-800 text-slate-500'}`}>
-                  {p.isFeatured ? 'YES' : 'NO'}
+            <tr key={p.id} className="hover:bg-slate-800/60 transition-colors border-b border-slate-800/60 text-xs">
+              <td className="px-6 py-4 font-bold text-white text-sm">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 bg-slate-950 rounded-xl border border-slate-800 text-rose-400">
+                    <Package className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-white block font-bold">{p.name}</span>
+                    <span className="text-[11px] text-slate-400 font-mono">ID: {p.id.slice(-8)}</span>
+                  </div>
+                </div>
+              </td>
+              <td className="px-6 py-4 font-medium text-slate-300">
+                <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 border border-slate-700 text-slate-200">
+                  {p.category?.name || 'Uncategorized'}
                 </span>
               </td>
-              <td className="px-6 py-4 flex gap-2">
+              <td className="px-6 py-4 font-black text-amber-400 text-base">
+                ₹{p.price?.toLocaleString('en-IN')}
+              </td>
+              <td className="px-6 py-4 font-mono font-bold text-slate-200">
+                {p.stock} units
+              </td>
+              <td className="px-6 py-4">
+                <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                  p.isFeatured
+                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                    : 'bg-slate-950 text-slate-500 border border-slate-800'
+                }`}>
+                  {p.isFeatured ? 'FEATURED' : 'STANDARD'}
+                </span>
+              </td>
+              <td className="px-6 py-4">
                 <button
                   onClick={() => handleDelete(p.id, p.name)}
-                  className="p-1.5 bg-rose-900/50 text-rose-400 hover:bg-rose-800 rounded font-bold text-[10px]"
+                  className="p-2 bg-rose-600/90 hover:bg-rose-500 text-white rounded-xl transition shadow-md"
+                  title="Delete Product"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -142,8 +173,9 @@ export function ProductsManagement() {
 
       {/* Form Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingId ? 'Edit Product' : 'Add New Appliance'}>
-        <form onSubmit={handleFormSubmit} className="space-y-4">
+        <form onSubmit={handleFormSubmit} className="space-y-4 text-slate-200">
           <Input
+            variant="dark"
             label="Appliance Name *"
             placeholder="e.g. Sakthi Multi-Grind Mixer 750W"
             value={name}
@@ -151,10 +183,10 @@ export function ProductsManagement() {
             required
           />
 
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700 uppercase">Category *</label>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Category *</label>
             <select
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-900 focus:ring-2 focus:ring-brand-500 outline-none"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-xs text-white focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500"
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
               required
@@ -169,6 +201,7 @@ export function ProductsManagement() {
 
           <div className="grid grid-cols-2 gap-4">
             <Input
+              variant="dark"
               label="Price (₹) *"
               type="number"
               placeholder="e.g. 4999"
@@ -177,6 +210,7 @@ export function ProductsManagement() {
               required
             />
             <Input
+              variant="dark"
               label="Stock Count"
               type="number"
               value={stock}
@@ -184,11 +218,11 @@ export function ProductsManagement() {
             />
           </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700 uppercase">Description *</label>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Description *</label>
             <textarea
               rows={3}
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-900 focus:ring-2 focus:ring-brand-500 outline-none"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-xs text-white placeholder-slate-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500"
               placeholder="Enter appliance specifications & features..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -202,18 +236,18 @@ export function ProductsManagement() {
               id="isFeatured"
               checked={isFeatured}
               onChange={(e) => setIsFeatured(e.target.checked)}
-              className="w-4 h-4 text-brand-600 rounded"
+              className="w-4 h-4 text-rose-600 rounded bg-slate-950 border-slate-800"
             />
-            <label htmlFor="isFeatured" className="text-xs font-bold text-slate-700">
+            <label htmlFor="isFeatured" className="text-xs font-bold text-slate-300">
               Display as Featured Product on Homepage
             </label>
           </div>
 
           <div className="pt-2 flex justify-end gap-3">
-            <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
+            <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)} className="text-xs font-bold border-slate-700 bg-slate-900 text-slate-300">
               Cancel
             </Button>
-            <Button type="submit" variant="brand" disabled={submitting}>
+            <Button type="submit" variant="brand" disabled={submitting} className="text-xs font-bold uppercase tracking-wider px-6">
               {submitting ? 'Saving...' : 'Save Appliance'}
             </Button>
           </div>
