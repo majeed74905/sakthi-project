@@ -5,7 +5,7 @@ import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 import * as publicService from '../../services/publicService';
 import toast from 'react-hot-toast';
-import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Send, CheckCircle2 } from 'lucide-react';
 
 export function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
@@ -39,32 +39,36 @@ export function ContactPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Company Contact Info */}
         <div className="space-y-6">
-          <Card className="p-6 space-y-4 bg-slate-900 text-white border-slate-800 shadow-xl">
-            <h3 className="text-xl font-bold text-white">Corporate Head Office</h3>
-            <div className="space-y-4 pt-2 text-xs text-slate-300">
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-bold text-white">My Sakthi Marketing</p>
-                  <p className="text-slate-400 leading-relaxed">
-                    Main Road, Coimbatore, Tamil Nadu, India - 641001
-                  </p>
-                </div>
+          <Card className="p-8 space-y-6 bg-white border border-slate-200 shadow-sm rounded-3xl">
+            <div>
+              <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">Get in Touch</h3>
+              <p className="text-sm font-bold text-slate-800 mt-3">My Sakthi Marketing</p>
+            </div>
+
+            <div className="space-y-5 text-sm text-slate-700 font-medium">
+              <div className="flex items-start gap-3.5">
+                <MapPin className="w-5 h-5 text-slate-800 flex-shrink-0 mt-0.5" />
+                <span className="text-slate-800 leading-relaxed font-medium">
+                  No.2, venus Nagar 5th Street, Kolathur, Chennai - 600099.
+                </span>
               </div>
 
-              <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-                <div>
-                  <p className="font-bold text-white">Helpline</p>
-                  <p className="text-slate-400">+91 98765 43210</p>
-                </div>
+              <div className="flex items-center gap-3.5">
+                <Phone className="w-5 h-5 text-slate-800 flex-shrink-0" />
+                <a href="tel:+917845601441" className="text-slate-800 font-medium hover:text-slate-900 transition">
+                  +91 78456 01441
+                </a>
               </div>
 
-              <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-amber-400 flex-shrink-0" />
-                <div>
-                  <p className="font-bold text-white">Email Enquiries</p>
-                  <p className="text-slate-400">info@mysakthimarketing.in</p>
+              <div className="flex items-start gap-3.5">
+                <Globe className="w-5 h-5 text-slate-800 flex-shrink-0 mt-0.5" />
+                <div className="space-y-0.5">
+                  <a href="mailto:info@mysakthimarketing.in" className="text-slate-800 font-medium hover:text-slate-900 block transition">
+                    info@mysakthimarketing.in
+                  </a>
+                  <a href="https://www.mysakthimarketing.in" target="_blank" rel="noopener noreferrer" className="text-slate-800 font-medium hover:text-slate-900 block transition">
+                    www.mysakthimarketing.in
+                  </a>
                 </div>
               </div>
             </div>
@@ -73,7 +77,7 @@ export function ContactPage() {
 
         {/* Contact Form */}
         <div className="lg:col-span-2">
-          <Card className="p-8 bg-white border-slate-200">
+          <Card className="p-8 sm:p-10 bg-white border border-slate-200 shadow-sm rounded-3xl">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
                 <CheckCircle2 className="w-16 h-16 text-emerald-500 mx-auto" />
@@ -81,9 +85,13 @@ export function ContactPage() {
                 <p className="text-xs text-slate-500 max-w-md mx-auto">
                   Thank you for reaching out. Our associate support team will get back to you within 24 business hours.
                 </p>
-                <Button variant="brand" onClick={() => setSubmitted(false)} className="mt-4">
+                <button
+                  type="button"
+                  onClick={() => setSubmitted(false)}
+                  className="mt-4 px-6 py-3 bg-[#0B132B] hover:bg-[#162244] text-white font-semibold text-xs rounded-xl transition shadow-md"
+                >
                   Send Another Message
-                </Button>
+                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -121,7 +129,7 @@ export function ContactPage() {
                   </label>
                   <textarea
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-300 text-xs text-slate-900 focus:ring-2 focus:ring-brand-500 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 text-xs text-slate-900 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition"
                     placeholder="Type your query or enquiry message..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -129,9 +137,14 @@ export function ContactPage() {
                   />
                 </div>
 
-                <Button type="submit" variant="brand" disabled={submitting} className="w-full py-3 font-bold text-xs">
-                  {submitting ? 'Submitting...' : 'Send Message'} <Send className="w-4 h-4 ml-2" />
-                </Button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full py-3.5 px-6 bg-[#0B132B] hover:bg-[#162244] text-white font-semibold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <span>{submitting ? 'Sending...' : 'Send Message'}</span>
+                  <Send className="w-4 h-4" />
+                </button>
               </form>
             )}
           </Card>

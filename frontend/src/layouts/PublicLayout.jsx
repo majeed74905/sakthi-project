@@ -127,7 +127,7 @@ export function PublicLayout() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400 text-xs border-t border-slate-800">
+      <footer className="bg-[#0B132B] text-slate-400 text-xs border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-5 gap-8">
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
@@ -166,14 +166,16 @@ export function PublicLayout() {
           <div>
             <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-4">Head Office</h4>
             <p className="text-slate-400 leading-relaxed">
-              Coimbatore, Tamil Nadu, India<br />
-              Helpline: +91 98765 43210<br />
-              Email: info@mysakthimarketing.in
+              <strong className="text-white">My Sakthi Marketing</strong><br />
+              No.2, venus Nagar 5th Street, Kolathur, Chennai - 600099.<br />
+              Phone: +91 78456 01441<br />
+              Email: info@mysakthimarketing.in<br />
+              Web: www.mysakthimarketing.in
             </p>
           </div>
         </div>
 
-        <div className="border-t border-slate-800 text-center py-6 text-slate-500">
+        <div className="border-t border-slate-800/80 text-center py-6 text-slate-500">
           © {new Date().getFullYear()} My Sakthi Marketing. All rights reserved.
         </div>
       </footer>
