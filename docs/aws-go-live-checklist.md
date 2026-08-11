@@ -1,0 +1,23 @@
+# AWS Pre-Flight Go-Live Checklist
+
+- [ ] **AWS Account Security**: MFA enabled on all IAM user accounts. Root account secured.
+- [ ] **AWS EC2 Provisioned**: Ubuntu 22.04 LTS `t3.medium` instance launched with 30GB GP3 volume.
+- [ ] **Elastic IP Attached**: Permanent Elastic IP associated to EC2 instance.
+- [ ] **Security Group Configured**: Inbound 80 HTTP, 443 HTTPS, and restricted 22 SSH allowed. Port 3306 and 5000 blocked.
+- [ ] **Server Hardened**: UFW firewall enabled, Fail2ban active, non-root user `deployadmin` created.
+- [ ] **Node.js 20 LTS Installed**: Node `v20.x` verified via `node -v`.
+- [ ] **MySQL 8.0 Installed & Isolated**: MySQL binding to `127.0.0.1`.
+- [ ] **Least-Privilege DB Users**: `sakthi_app` and `sakthi_backup` created with restricted permissions.
+- [ ] **MySQL Option File Created**: `/home/deployadmin/.my.cnf` created with `chmod 600`.
+- [ ] **Prisma Migrations Deployed**: Executed `npx prisma migrate deploy`. (Zero `db push` or `db seed`).
+- [ ] **Production `.env` Configured**: Secrets generated via `openssl rand -hex 32` and saved in `backend/.env`.
+- [ ] **Frontend Built**: `npm run build` static bundle located in `frontend/dist`.
+- [ ] **Nginx Reverse Proxy Active**: Virtual host configured with `/api/v1/` reverse proxy and SPA fallback.
+- [ ] **Certbot SSL Issued**: Let's Encrypt TLS certificate active for `mysakthimarketing.in` and `www`.
+- [ ] **PM2 Cluster Running**: Application started via `pm2 start ecosystem.config.cjs --env production`.
+- [ ] **Encrypted S3 Backups Configured**: Automated `aws_s3_backup.sh` cron active with GPG AES-256 encryption.
+- [ ] **Demo Data Flushed**: Executed `node scripts/clean-demo-data.js --force-production-purge`.
+- [ ] **Initial Admin Account Created**: Administrative user created securely.
+- [ ] **Business Rules Approved**: Referral rules and payout thresholds confirmed in `business-rule-verification.md`.
+- [ ] **Legal Wording Approved**: Terms, Privacy, Refund, and Disclaimer approved by company leadership.
+- [ ] **Smoke Test Passed**: End-to-end user registration and portal flow verified on live domain.
