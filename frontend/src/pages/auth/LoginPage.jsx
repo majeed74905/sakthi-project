@@ -4,13 +4,14 @@ import { useAuth } from '../../context/AuthContext';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 import toast from 'react-hot-toast';
-import { LogIn, User, Lock, ShieldCheck, Zap, Award } from 'lucide-react';
+import { LogIn, User, Lock, ShieldCheck, Zap, Award, Eye, EyeOff } from 'lucide-react';
 
 export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -96,12 +97,27 @@ export function LoginPage() {
 
           <Input
             label="Login Password *"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             placeholder="Enter your account login password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             icon={Lock}
             required
+            rightElement={
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="text-slate-400 hover:text-slate-600 focus:outline-none focus:text-slate-600 transition-colors p-1"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                title={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
+              </button>
+            }
           />
 
           <div className="flex items-center justify-between text-xs pt-1">
