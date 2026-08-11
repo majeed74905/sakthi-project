@@ -66,12 +66,11 @@ export function CmsPagesManagement() {
 
   return (
     <PageContainer
-      variant="dark"
       title="CMS Content & Legal Governance"
       subtitle="Manage static content pages for Who We Are, Terms & Conditions, and Privacy Policy"
     >
       {/* Slug Selection Pills */}
-      <div className="p-4 bg-[#0D121F] rounded-2xl border border-slate-800/80 shadow-xl mb-6 flex flex-wrap gap-3">
+      <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-sm mb-6 flex flex-wrap gap-3">
         {[
           { slug: 'who-we-are', label: 'Who We Are' },
           { slug: 'terms', label: 'Terms & Conditions' },
@@ -82,14 +81,13 @@ export function CmsPagesManagement() {
             onClick={() => setSelectedSlug(item.slug)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all shadow-sm ${
               selectedSlug === item.slug
-                ? 'bg-indigo-600 text-white border border-indigo-500'
-                : 'bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 hover:text-white'
+                ? 'bg-slate-900 text-white font-bold'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
             <FileText className="w-4 h-4" />
             {item.label}
           </button>
-
         ))}
       </div>
 
@@ -98,10 +96,9 @@ export function CmsPagesManagement() {
           <LoadingSpinner />
         </div>
       ) : (
-        <Card variant="dark" className="p-8 space-y-6">
-          <form onSubmit={handleSave} className="space-y-5 text-slate-200">
+        <Card className="p-8 space-y-6">
+          <form onSubmit={handleSave} className="space-y-5 text-slate-800">
             <Input
-              variant="dark"
               label="Page Header Title *"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -109,10 +106,10 @@ export function CmsPagesManagement() {
             />
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Page Body Content (Markdown / HTML) *</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Page Body Content (Markdown / HTML) *</label>
               <textarea
                 rows={12}
-                className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-xs text-white placeholder-slate-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 leading-relaxed font-mono"
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-xs text-slate-900 placeholder-slate-400 focus:border-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-800 leading-relaxed font-mono"
                 placeholder="Enter CMS page content text..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}

@@ -1,20 +1,10 @@
 import React from 'react';
 
-export function Table({ headers = [], children, emptyMessage = 'No records found.', variant = 'light', className = '' }) {
-  const isDark = variant === 'dark';
-
+export function Table({ headers = [], children, emptyMessage = 'No records found.', className = '' }) {
   return (
-    <div className={`w-full overflow-x-auto rounded-2xl shadow-xl transition-all duration-200 ${
-      isDark
-        ? 'border border-slate-800/80 bg-slate-900/90 backdrop-blur-md shadow-slate-950/50'
-        : 'border border-slate-200 bg-white shadow-sm'
-    } ${className}`}>
+    <div className={`w-full overflow-x-auto rounded-2xl border border-slate-200/90 bg-white shadow-sm transition-all duration-200 overflow-hidden ${className}`}>
       <table className="w-full text-left text-sm">
-        <thead className={`${
-          isDark
-            ? 'bg-slate-950/90 text-slate-400 border-b border-slate-800/80 font-bold uppercase text-[11px] tracking-wider'
-            : 'bg-slate-50 text-slate-500 border-b border-slate-200 font-semibold uppercase text-xs tracking-wider'
-        }`}>
+        <thead className="bg-slate-50/90 text-slate-600 border-b border-slate-200 font-bold uppercase text-[11px] tracking-wider">
           <tr>
             {headers.map((header, idx) => (
               <th key={idx} className="px-6 py-4">
@@ -23,7 +13,7 @@ export function Table({ headers = [], children, emptyMessage = 'No records found
             ))}
           </tr>
         </thead>
-        <tbody className={isDark ? 'divide-y divide-slate-800/60 text-slate-300' : 'divide-y divide-slate-100 text-slate-700'}>
+        <tbody className="divide-y divide-slate-100 text-slate-800 font-medium">
           {children}
         </tbody>
       </table>

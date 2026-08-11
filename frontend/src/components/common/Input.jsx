@@ -6,17 +6,14 @@ export const Input = forwardRef(({
   helperText,
   icon: Icon,
   rightElement,
-  variant = 'light',
   className = '',
   required = false,
   ...props
 }, ref) => {
-  const isDark = variant === 'dark';
-
   return (
     <div className="w-full space-y-1.5">
       {label && (
-        <label className={`block text-xs font-semibold uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
           {label} {required && <span className="text-rose-500">*</span>}
         </label>
       )}
@@ -28,11 +25,9 @@ export const Input = forwardRef(({
         )}
         <input
           ref={ref}
-          className={`w-full rounded-xl border text-sm transition duration-150 ease-in-out py-2.5 px-3.5 ${
-            isDark
-              ? 'border-slate-800 bg-slate-900/90 text-white placeholder-slate-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 disabled:bg-slate-950 disabled:opacity-60'
-              : 'border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 disabled:bg-slate-100 disabled:opacity-60'
-          } ${Icon ? 'pl-10' : ''} ${rightElement ? 'pr-10' : ''} ${
+          className={`w-full rounded-xl border border-slate-300 bg-white py-2.5 px-3.5 text-sm text-slate-900 placeholder-slate-400 transition duration-150 ease-in-out focus:border-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-800 disabled:bg-slate-100 disabled:opacity-60 ${
+            Icon ? 'pl-10' : ''
+          } ${rightElement ? 'pr-10' : ''} ${
             error ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500' : ''
           } ${className}`}
           {...props}
@@ -45,10 +40,10 @@ export const Input = forwardRef(({
       </div>
 
       {error && (
-        <p className="text-xs text-rose-500 font-medium">{error}</p>
+        <p className="text-xs text-rose-600 font-medium">{error}</p>
       )}
       {helperText && !error && (
-        <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{helperText}</p>
+        <p className="text-xs text-slate-500">{helperText}</p>
       )}
     </div>
   );

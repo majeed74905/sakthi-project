@@ -14,8 +14,7 @@ import {
   LogOut,
   Menu,
   X,
-  Activity,
-  Layers
+  Activity
 } from 'lucide-react';
 
 export function AdminLayout() {
@@ -49,25 +48,25 @@ export function AdminLayout() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-[#090D16] text-slate-100 flex font-sans antialiased">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex font-sans antialiased">
       {/* Mobile Backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/75 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#0D121F] text-slate-300 transform transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 flex flex-col border-r border-slate-800/80 shadow-2xl ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transform transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 flex flex-col border-r border-slate-800 shadow-xl ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Brand Header */}
-        <div className="h-16 flex items-center justify-between px-5 border-b border-slate-800/80 bg-[#0D121F]">
+        <div className="h-16 flex items-center justify-between px-5 border-b border-slate-800 bg-slate-950">
           <Link to="/admin/dashboard" className="flex items-center gap-3">
-            <div className="p-1 bg-white rounded-lg shadow-sm">
+            <div className="p-1 bg-white rounded-lg shadow-sm border border-slate-700/50">
               <img
                 src={logoImg}
                 alt="My Sakthi Marketing"
@@ -75,8 +74,8 @@ export function AdminLayout() {
               />
             </div>
             <div>
-              <span className="text-xs font-bold text-white uppercase tracking-wider block">Enterprise Admin</span>
-              <span className="text-[10px] text-slate-400">Governance Portal</span>
+              <span className="text-xs font-bold text-white uppercase tracking-wider block">Executive Admin</span>
+              <span className="text-[10px] text-slate-400 font-mono">Company Suite</span>
             </div>
           </Link>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-slate-400 hover:text-white">
@@ -85,8 +84,8 @@ export function AdminLayout() {
         </div>
 
         {/* Realtime Status Indicator */}
-        <div className="px-4 py-3 border-b border-slate-800/60 bg-[#0A0E17]">
-          <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-[11px]">
+        <div className="px-4 py-3 border-b border-slate-800/80 bg-slate-950/60">
+          <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px]">
             <div className="flex items-center gap-2 text-emerald-400 font-semibold">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Production Engine Active</span>
@@ -98,7 +97,7 @@ export function AdminLayout() {
         <nav className="flex-1 px-3 py-4 space-y-5 overflow-y-auto custom-scrollbar">
           {navigation.map((group, idx) => (
             <div key={idx} className="space-y-1">
-              <h4 className="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+              <h4 className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                 {group.section}
               </h4>
               {group.items.map((item) => {
@@ -111,16 +110,16 @@ export function AdminLayout() {
                     onClick={() => setSidebarOpen(false)}
                     className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
                       active
-                        ? 'bg-slate-800 text-white font-semibold border-l-2 border-indigo-500 shadow-sm'
+                        ? 'bg-slate-800 text-white font-bold border-l-4 border-rose-500 shadow-sm'
                         : 'text-slate-400 hover:bg-slate-800/60 hover:text-white'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <Icon className={`w-4 h-4 ${active ? 'text-indigo-400' : 'text-slate-400'}`} />
+                      <Icon className={`w-4 h-4 ${active ? 'text-rose-400' : 'text-slate-400'}`} />
                       <span>{item.name}</span>
                     </div>
                     {item.badge && (
-                      <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                      <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                         {item.badge}
                       </span>
                     )}
@@ -132,9 +131,9 @@ export function AdminLayout() {
         </nav>
 
         {/* User Footer */}
-        <div className="p-4 border-t border-slate-800/80 bg-[#0A0E17] space-y-3">
+        <div className="p-4 border-t border-slate-800 bg-slate-950 space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-rose-600 text-white font-bold text-xs flex items-center justify-center shadow-sm">
               A
             </div>
             <div className="overflow-hidden">
@@ -154,33 +153,33 @@ export function AdminLayout() {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 bg-[#090D16]">
-        <header className="h-16 bg-[#0D121F]/90 border-b border-slate-800/80 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 backdrop-blur-md">
+      <div className="flex-1 flex flex-col min-w-0 bg-slate-50">
+        <header className="h-16 bg-white border-b border-slate-200/80 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 shadow-sm">
           <div className="flex items-center gap-3">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-1.5 text-slate-300 hover:text-white rounded-lg bg-slate-800">
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-1.5 text-slate-600 hover:text-slate-900 rounded-lg bg-slate-100">
               <Menu className="w-5 h-5" />
             </button>
-            <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
-              <span className="text-slate-200">Admin</span>
+            <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
+              <span className="text-slate-400">Admin Governance</span>
               <span>/</span>
-              <span className="text-white font-semibold uppercase tracking-wider">
+              <span className="text-slate-900 font-bold uppercase tracking-wider">
                 {location.pathname.split('/').pop().replace('-', ' ')}
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] font-medium text-slate-300">
-              <Activity className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Railway Engine Live</span>
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-semibold text-emerald-700">
+              <Activity className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Railway MySQL Engine Live</span>
             </div>
-            <span className="px-3 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] font-mono font-bold rounded-full">
+            <span className="px-3 py-1 bg-slate-100 text-slate-800 border border-slate-200 text-[11px] font-mono font-bold rounded-full">
               {user?.userCode || 'MSM10001'}
             </span>
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 sm:p-8">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-8 bg-slate-50">
           <Outlet />
         </main>
       </div>

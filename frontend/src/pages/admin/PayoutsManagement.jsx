@@ -8,7 +8,7 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import * as adminService from '../../services/adminService';
 import { exportToCsv } from '../../utils/exportCsv';
 import toast from 'react-hot-toast';
-import { Download, ArrowDownToLine, CheckCircle2, XCircle, CreditCard, Building2 } from 'lucide-react';
+import { Download, CheckCircle2, XCircle, CreditCard, Building2 } from 'lucide-react';
 
 export function PayoutsManagement() {
   const [payouts, setPayouts] = useState([]);
@@ -93,18 +93,17 @@ export function PayoutsManagement() {
 
   return (
     <PageContainer
-      variant="dark"
       title="Financial Disbursal & Payout Governance"
       subtitle="Audit requested wallet withdrawals, review destination bank details, and log bank transaction reference codes"
     >
       {/* Action & Status Filter Header */}
-      <div className="p-5 bg-[#0D121F] rounded-2xl border border-slate-800/80 shadow-xl mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <Button
           variant="outline"
           onClick={handleExportCsv}
-          className="text-xs font-semibold text-slate-200 border-slate-700 bg-slate-900 hover:bg-slate-800 transition py-2"
+          className="text-xs font-semibold text-slate-700 border-slate-300 bg-white hover:bg-slate-50 transition py-2"
         >
-          <Download className="w-4 h-4 mr-2 text-indigo-400" /> Export CSV Queue
+          <Download className="w-4 h-4 mr-2 text-slate-600" /> Export CSV Queue
         </Button>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -120,8 +119,8 @@ export function PayoutsManagement() {
               onClick={() => { setStatus(s.value); setPage(1); }}
               className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                 status === s.value
-                  ? 'bg-indigo-600 text-white border border-indigo-500 shadow-sm'
-                  : 'bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 hover:text-white'
+                  ? 'bg-slate-900 text-white font-bold shadow-sm'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
               {s.label}
@@ -130,14 +129,12 @@ export function PayoutsManagement() {
         </div>
       </div>
 
-
       {loading ? (
         <div className="p-12 flex justify-center">
           <LoadingSpinner />
         </div>
       ) : (
         <Table
-          variant="dark"
           headers={['MEMBER (USER CODE)', 'REQUESTED AMOUNT', 'DESTINATION BANK (MASKED)', 'REQUESTED DATE', 'STATUS', 'ACTIONS']}
         >
           {payouts.length === 0 ? (
@@ -148,26 +145,26 @@ export function PayoutsManagement() {
             </tr>
           ) : (
             payouts.map((p) => (
-              <tr key={p.id} className="hover:bg-slate-800/60 transition-colors border-b border-slate-800/60 text-xs">
-                <td className="px-6 py-4 font-bold text-white text-sm">
+              <tr key={p.id} className="hover:bg-slate-50/80 transition-colors border-b border-slate-100 text-xs">
+                <td className="px-6 py-4 font-bold text-slate-900 text-sm">
                   <div>
-                    <span className="text-white block">{p.user?.fullName}</span>
-                    <span className="font-mono text-rose-400 text-xs font-bold">{p.user?.userCode}</span>
+                    <span className="text-slate-900 block font-bold">{p.user?.fullName}</span>
+                    <span className="font-mono text-slate-500 text-xs font-semibold">({p.user?.userCode})</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 font-black text-amber-400 text-base">
+                <td className="px-6 py-4 font-extrabold text-emerald-600 text-base">
                   ₹{p.amount?.toLocaleString('en-IN')}
                 </td>
-                <td className="px-6 py-4 font-mono text-slate-300 text-xs">
+                <td className="px-6 py-4 text-slate-700 text-xs">
                   <div className="flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-slate-500" />
+                    <Building2 className="w-4 h-4 text-slate-400" />
                     <div>
-                      <p className="font-bold text-white">{p.bankSnapshot?.bankName || 'N/A'}</p>
-                      <p className="text-[11px] text-slate-400">{p.bankSnapshot?.accountNumberMasked} (IFSC: {p.bankSnapshot?.ifscCode})</p>
+                      <p className="font-bold text-slate-900">{p.bankSnapshot?.bankName || 'N/A'}</p>
+                      <p className="text-[11px] text-slate-500 font-mono">{p.bankSnapshot?.accountNumberMasked} (IFSC: {p.bankSnapshot?.ifscCode})</p>
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 text-slate-400 font-mono text-[11px]">
+                <td className="px-6 py-4 text-slate-500 text-[11px]">
                   {new Date(p.createdAt).toLocaleDateString('en-IN', {
                     day: '2-digit',
                     month: 'short',
@@ -176,18 +173,18 @@ export function PayoutsManagement() {
                 </td>
                 <td className="px-6 py-4">
                   <span
-                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase ${
+                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase ${
                       p.status === 'PAID'
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                         : p.status === 'APPROVED'
-                        ? 'bg-sky-500/10 text-sky-400 border border-sky-500/20'
+                        ? 'bg-blue-50 text-blue-700 border border-blue-200'
                         : p.status === 'REJECTED'
-                        ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                        ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                        : 'bg-amber-50 text-amber-700 border border-amber-200'
                     }`}
                   >
                     <span className={`w-1.5 h-1.5 rounded-full ${
-                      p.status === 'PAID' ? 'bg-emerald-400' : p.status === 'APPROVED' ? 'bg-sky-400' : p.status === 'REJECTED' ? 'bg-rose-400' : 'bg-amber-400'
+                      p.status === 'PAID' ? 'bg-emerald-500' : p.status === 'APPROVED' ? 'bg-blue-500' : p.status === 'REJECTED' ? 'bg-rose-500' : 'bg-amber-500'
                     }`} />
                     {p.status}
                   </span>
@@ -198,13 +195,13 @@ export function PayoutsManagement() {
                       <>
                         <button
                           onClick={() => handleOpenReview(p, 'APPROVED')}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] rounded-xl transition shadow-md"
+                          className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[11px] rounded-xl transition shadow-sm"
                         >
                           <CheckCircle2 className="w-3.5 h-3.5" /> Approve
                         </button>
                         <button
                           onClick={() => handleOpenReview(p, 'REJECTED')}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold text-[11px] rounded-xl transition shadow-md"
+                          className="flex items-center gap-1 px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-[11px] rounded-xl transition shadow-sm"
                         >
                           <XCircle className="w-3.5 h-3.5" /> Reject
                         </button>
@@ -213,7 +210,7 @@ export function PayoutsManagement() {
                     {p.status === 'APPROVED' && (
                       <button
                         onClick={() => handleOpenReview(p, 'PAID')}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white font-bold text-[11px] rounded-xl transition shadow-md"
+                        className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-[11px] rounded-xl transition shadow-sm"
                       >
                         <CreditCard className="w-3.5 h-3.5" /> Mark Paid
                       </button>
@@ -228,17 +225,16 @@ export function PayoutsManagement() {
 
       {/* Review Modal */}
       <Modal isOpen={!!selectedPayout} onClose={() => setSelectedPayout(null)} title={`Process Payout Request (${targetStatus})`}>
-        <form onSubmit={handleProcessSubmit} className="space-y-4 text-slate-200">
-          <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2 text-xs font-mono">
-            <p className="text-slate-300"><strong className="text-white">Member:</strong> {selectedPayout?.user?.fullName} ({selectedPayout?.user?.userCode})</p>
-            <p className="text-amber-400 font-bold"><strong className="text-white">Amount:</strong> ₹{selectedPayout?.amount?.toLocaleString('en-IN')}</p>
-            <p className="text-slate-300"><strong className="text-white">Destination Bank:</strong> {selectedPayout?.bankSnapshot?.bankName}</p>
-            <p className="text-slate-400"><strong className="text-white">Masked Account:</strong> {selectedPayout?.bankSnapshot?.accountNumberMasked} (IFSC: {selectedPayout?.bankSnapshot?.ifscCode})</p>
+        <form onSubmit={handleProcessSubmit} className="space-y-4 text-slate-800">
+          <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5 text-xs">
+            <p><strong className="text-slate-900">Member:</strong> {selectedPayout?.user?.fullName} ({selectedPayout?.user?.userCode})</p>
+            <p className="text-emerald-700 font-bold"><strong className="text-slate-900">Amount:</strong> ₹{selectedPayout?.amount?.toLocaleString('en-IN')}</p>
+            <p><strong className="text-slate-900">Destination Bank:</strong> {selectedPayout?.bankSnapshot?.bankName}</p>
+            <p className="text-slate-600 font-mono"><strong className="text-slate-900">Masked Account:</strong> {selectedPayout?.bankSnapshot?.accountNumberMasked} (IFSC: {selectedPayout?.bankSnapshot?.ifscCode})</p>
           </div>
 
           {targetStatus === 'PAID' && (
             <Input
-              variant="dark"
               label="Bank Transaction Reference (IMPS/NEFT/UTR Ref) *"
               placeholder="e.g. UTR998877665544"
               value={transactionRef}
@@ -248,10 +244,10 @@ export function PayoutsManagement() {
           )}
 
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Admin Audit Notes</label>
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Admin Audit Notes</label>
             <textarea
               rows={3}
-              className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-xs text-white placeholder-slate-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500"
+              className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-xs text-slate-900 placeholder-slate-400 focus:border-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-800"
               placeholder="Enter audit rationale for approval/rejection..."
               value={adminNotes}
               onChange={(e) => setAdminNotes(e.target.value)}
@@ -259,7 +255,7 @@ export function PayoutsManagement() {
           </div>
 
           <div className="pt-2 flex justify-end gap-3">
-            <Button type="button" variant="outline" onClick={() => setSelectedPayout(null)} className="text-xs font-bold border-slate-700 bg-slate-900 text-slate-300">
+            <Button type="button" variant="outline" onClick={() => setSelectedPayout(null)} className="text-xs font-semibold">
               Cancel
             </Button>
             <Button type="submit" variant="brand" disabled={processing} className="text-xs font-bold uppercase tracking-wider px-6">
