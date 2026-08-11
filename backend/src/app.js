@@ -25,8 +25,19 @@ setupSecurityMiddleware(app);
 const uploadDir = process.env.UPLOAD_DIR || './uploads';
 app.use('/uploads', express.static(path.resolve(__dirname, '..', uploadDir)));
 
+// Root Health Check Route
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: '🚀 My Sakthi Marketing API Backend Server',
+    status: 'healthy',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Mount API Routes
 app.use('/api', routes);
+
 
 // Global Error Handler
 app.use(errorHandler);
