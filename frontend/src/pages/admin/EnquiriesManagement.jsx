@@ -37,7 +37,12 @@ export function EnquiriesManagement() {
   };
 
   return (
-    <PageContainer title="Public Contact Inbox" subtitle="Review and resolve incoming messages from website visitors and prospective associates">
+    <PageContainer
+      variant="dark"
+      title="Public Contact Inbox"
+      subtitle="Review and resolve incoming messages from website visitors and prospective associates"
+    >
+
       {loading ? (
         <div className="p-12 flex justify-center">
           <LoadingSpinner />

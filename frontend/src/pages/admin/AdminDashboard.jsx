@@ -4,7 +4,7 @@ import PageContainer from '../../components/common/PageContainer';
 import Card from '../../components/common/Card';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import * as adminService from '../../services/adminService';
-import { Users, ShieldAlert, ArrowDownToLine, Package, Mail, CheckCircle2, TrendingUp, Sparkles, ArrowRight } from 'lucide-react';
+import { Users, ShieldAlert, ArrowDownToLine, Package, Mail, CheckCircle2, TrendingUp, ArrowRight } from 'lucide-react';
 
 export function AdminDashboard() {
   const [stats, setStats] = useState(null);
@@ -27,57 +27,61 @@ export function AdminDashboard() {
   if (loading) return <LoadingSpinner fullScreen />;
 
   return (
-    <PageContainer title="Executive Command Dashboard" subtitle="Real-time administrative metrics, financial disbursal volume, and system governance">
+    <PageContainer
+      variant="dark"
+      title="Executive Command Dashboard"
+      subtitle="Real-time administrative metrics, financial disbursal volume, and system governance"
+    >
       {/* Realtime KPI Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card variant="dark" className="relative overflow-hidden group hover:border-slate-700 transition">
+        <Card variant="dark" className="relative overflow-hidden border-t-2 border-indigo-500">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Registered Accounts</p>
-              <h3 className="text-3xl font-black text-white">{stats?.totalUsers || 0}</h3>
+              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Total Registered Accounts</p>
+              <h3 className="text-3xl font-extrabold text-white">{stats?.totalUsers || 0}</h3>
               <p className="text-[10px] text-slate-500 font-mono">Verified System Users</p>
             </div>
-            <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-2xl text-rose-400 shadow-inner group-hover:scale-110 transition-transform">
-              <Users className="w-7 h-7" />
+            <div className="p-3 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-indigo-400">
+              <Users className="w-6 h-6" />
             </div>
           </div>
         </Card>
 
-        <Card variant="dark" className="relative overflow-hidden group hover:border-slate-700 transition">
+        <Card variant="dark" className="relative overflow-hidden border-t-2 border-emerald-500">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Active Associate Members</p>
-              <h3 className="text-3xl font-black text-emerald-400">{stats?.activeMembers || 0}</h3>
+              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Active Associate Members</p>
+              <h3 className="text-3xl font-extrabold text-emerald-400">{stats?.activeMembers || 0}</h3>
               <p className="text-[10px] text-emerald-500/80 font-mono">● Active Marketing Tree</p>
             </div>
-            <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400 shadow-inner group-hover:scale-110 transition-transform">
-              <CheckCircle2 className="w-7 h-7" />
+            <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
           </div>
         </Card>
 
-        <Card variant="dark" className="relative overflow-hidden group hover:border-slate-700 transition">
+        <Card variant="dark" className="relative overflow-hidden border-t-2 border-amber-500">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Pending Payout Requests</p>
-              <h3 className="text-3xl font-black text-amber-400">{stats?.pendingPayoutsCount || 0}</h3>
+              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Pending Payout Requests</p>
+              <h3 className="text-3xl font-extrabold text-amber-400">{stats?.pendingPayoutsCount || 0}</h3>
               <p className="text-[10px] text-amber-500/80 font-mono">Awaiting Review</p>
             </div>
-            <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-amber-400 shadow-inner group-hover:scale-110 transition-transform">
-              <ArrowDownToLine className="w-7 h-7" />
+            <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-400">
+              <ArrowDownToLine className="w-6 h-6" />
             </div>
           </div>
         </Card>
 
-        <Card variant="dark" className="relative overflow-hidden group hover:border-slate-700 transition">
+        <Card variant="dark" className="relative overflow-hidden border-t-2 border-sky-500">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">New Contact Inquiries</p>
-              <h3 className="text-3xl font-black text-sky-400">{stats?.pendingEnquiriesCount || 0}</h3>
+              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">New Contact Inquiries</p>
+              <h3 className="text-3xl font-extrabold text-sky-400">{stats?.pendingEnquiriesCount || 0}</h3>
               <p className="text-[10px] text-sky-500/80 font-mono">Unresolved Messages</p>
             </div>
-            <div className="p-3 bg-sky-500/10 border border-sky-500/20 rounded-2xl text-sky-400 shadow-inner group-hover:scale-110 transition-transform">
-              <Mail className="w-7 h-7" />
+            <div className="p-3 bg-sky-500/10 border border-sky-500/20 rounded-xl text-sky-400">
+              <Mail className="w-6 h-6" />
             </div>
           </div>
         </Card>
@@ -87,7 +91,7 @@ export function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <Card variant="dark" className="p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-emerald-400" />
               Financial Disbursal Volume
             </h3>
@@ -96,9 +100,9 @@ export function AdminDashboard() {
             </span>
           </div>
 
-          <div className="p-5 bg-slate-950/80 rounded-2xl border border-slate-800 space-y-1 shadow-inner">
+          <div className="p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-1">
             <span className="text-[10px] text-slate-400 font-mono uppercase tracking-wider">Total Paid Payouts Disbursed</span>
-            <h4 className="text-4xl font-black text-emerald-400 tracking-tight">
+            <h4 className="text-4xl font-extrabold text-emerald-400 tracking-tight">
               ₹{stats?.totalPaidVolume?.toLocaleString('en-IN') || '0'}
             </h4>
             <p className="text-[11px] text-slate-400 pt-1">
@@ -109,7 +113,7 @@ export function AdminDashboard() {
           <div className="pt-2">
             <Link
               to="/admin/payouts"
-              className="inline-flex items-center gap-2 text-xs font-bold text-rose-400 hover:text-rose-300 transition"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition"
             >
               Go to Payout Approval Queue <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -118,18 +122,18 @@ export function AdminDashboard() {
 
         <Card variant="dark" className="p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <Package className="w-4 h-4 text-rose-400" />
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider flex items-center gap-2">
+              <Package className="w-4 h-4 text-indigo-400" />
               Product Catalogue Status
             </h3>
-            <span className="text-[10px] font-mono text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2.5 py-0.5 rounded-full font-bold">
+            <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded-full font-bold">
               CATALOGUE DISPATCH
             </span>
           </div>
 
-          <div className="p-5 bg-slate-950/80 rounded-2xl border border-slate-800 space-y-1 shadow-inner">
+          <div className="p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-1">
             <span className="text-[10px] text-slate-400 font-mono uppercase tracking-wider">Active Products Listed</span>
-            <h4 className="text-4xl font-black text-rose-400 tracking-tight">{stats?.totalProducts || 0} Products</h4>
+            <h4 className="text-4xl font-extrabold text-indigo-400 tracking-tight">{stats?.totalProducts || 0} Products</h4>
             <p className="text-[11px] text-slate-400 pt-1">
               Active merchandise items displayed on public store and associate portal.
             </p>
@@ -138,7 +142,7 @@ export function AdminDashboard() {
           <div className="pt-2">
             <Link
               to="/admin/products"
-              className="inline-flex items-center gap-2 text-xs font-bold text-rose-400 hover:text-rose-300 transition"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition"
             >
               Manage Product Catalogue <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -147,36 +151,36 @@ export function AdminDashboard() {
       </div>
 
       {/* Quick Access Control Grid */}
-      <div className="p-6 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-        <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">Executive Management Shortcuts</h3>
+      <div className="p-6 bg-[#0D121F] rounded-2xl border border-slate-800 shadow-xl space-y-4">
+        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Executive Management Shortcuts</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Link
             to="/admin/members"
-            className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 hover:bg-slate-800/80 transition text-center space-y-2 group"
+            className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 hover:bg-slate-900 transition text-center space-y-2 group"
           >
-            <Users className="w-5 h-5 mx-auto text-rose-400 group-hover:scale-110 transition-transform" />
-            <span className="text-xs font-bold text-slate-200 block">Member Control</span>
+            <Users className="w-5 h-5 mx-auto text-indigo-400 group-hover:scale-110 transition-transform" />
+            <span className="text-xs font-semibold text-slate-200 block">Member Control</span>
           </Link>
           <Link
             to="/admin/payouts"
-            className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 hover:bg-slate-800/80 transition text-center space-y-2 group"
+            className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 hover:bg-slate-900 transition text-center space-y-2 group"
           >
             <ArrowDownToLine className="w-5 h-5 mx-auto text-amber-400 group-hover:scale-110 transition-transform" />
-            <span className="text-xs font-bold text-slate-200 block">Payout Approvals</span>
+            <span className="text-xs font-semibold text-slate-200 block">Payout Approvals</span>
           </Link>
           <Link
             to="/admin/products"
-            className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 hover:bg-slate-800/80 transition text-center space-y-2 group"
+            className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 hover:bg-slate-900 transition text-center space-y-2 group"
           >
             <Package className="w-5 h-5 mx-auto text-emerald-400 group-hover:scale-110 transition-transform" />
-            <span className="text-xs font-bold text-slate-200 block">Products</span>
+            <span className="text-xs font-semibold text-slate-200 block">Products</span>
           </Link>
           <Link
             to="/admin/email-logs"
-            className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 hover:bg-slate-800/80 transition text-center space-y-2 group"
+            className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 hover:bg-slate-900 transition text-center space-y-2 group"
           >
             <Mail className="w-5 h-5 mx-auto text-sky-400 group-hover:scale-110 transition-transform" />
-            <span className="text-xs font-bold text-slate-200 block">Email Logs</span>
+            <span className="text-xs font-semibold text-slate-200 block">Email Logs</span>
           </Link>
         </div>
       </div>

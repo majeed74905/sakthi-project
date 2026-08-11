@@ -108,7 +108,12 @@ export function EmailLogsManagement() {
   };
 
   return (
-    <PageContainer title="Email Delivery & Failure Audit (Phase 10)" subtitle="Audit Nodemailer transactional logs, monitor SMTP connection health, and resend failed emails">
+    <PageContainer
+      variant="dark"
+      title="Email Delivery & Failure Audit (Phase 10)"
+      subtitle="Audit Nodemailer transactional logs, monitor SMTP connection health, and resend failed emails"
+    >
+
       {/* SMTP Connection Diagnostic Banner */}
       {smtpStatus && (
         <div className={`p-5 mb-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between border shadow-xl backdrop-blur-md gap-4 text-xs font-semibold ${

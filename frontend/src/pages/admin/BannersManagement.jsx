@@ -78,16 +78,21 @@ export function BannersManagement() {
   };
 
   return (
-    <PageContainer title="Hero Banner Slider CMS" subtitle="Upload and manage homepage promotional slider banners and messaging">
-      <div className="p-6 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <PageContainer
+      variant="dark"
+      title="Hero Banner Slider CMS"
+      subtitle="Upload and manage homepage promotional slider banners and messaging"
+    >
+      <div className="p-5 bg-[#0D121F] rounded-2xl border border-slate-800/80 shadow-xl mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <h3 className="font-bold text-white text-base">Promotional Sliders</h3>
           <p className="text-xs text-slate-400">Total active banners: {banners.length}</p>
         </div>
-        <Button variant="brand" onClick={() => setIsModalOpen(true)} className="text-xs font-bold uppercase tracking-wider py-2.5 px-5">
+        <Button variant="brand" onClick={() => setIsModalOpen(true)} className="text-xs font-semibold py-2.5 px-5">
           <Plus className="w-4 h-4 mr-2" /> Add Hero Banner
         </Button>
       </div>
+
 
       {loading ? (
         <div className="p-12 flex justify-center">

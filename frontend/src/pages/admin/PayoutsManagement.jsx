@@ -92,15 +92,19 @@ export function PayoutsManagement() {
   };
 
   return (
-    <PageContainer title="Financial Disbursal & Payout Governance" subtitle="Audit requested wallet withdrawals, review destination bank details, and log bank transaction reference codes">
+    <PageContainer
+      variant="dark"
+      title="Financial Disbursal & Payout Governance"
+      subtitle="Audit requested wallet withdrawals, review destination bank details, and log bank transaction reference codes"
+    >
       {/* Action & Status Filter Header */}
-      <div className="p-6 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="p-5 bg-[#0D121F] rounded-2xl border border-slate-800/80 shadow-xl mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <Button
           variant="outline"
           onClick={handleExportCsv}
-          className="text-xs font-bold text-slate-200 border-slate-700 bg-slate-950 hover:bg-slate-800 transition py-2"
+          className="text-xs font-semibold text-slate-200 border-slate-700 bg-slate-900 hover:bg-slate-800 transition py-2"
         >
-          <Download className="w-4 h-4 mr-2 text-rose-400" /> Export CSV Queue
+          <Download className="w-4 h-4 mr-2 text-indigo-400" /> Export CSV Queue
         </Button>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -114,10 +118,10 @@ export function PayoutsManagement() {
             <button
               key={s.value}
               onClick={() => { setStatus(s.value); setPage(1); }}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                 status === s.value
-                  ? 'bg-rose-600 text-white shadow-lg shadow-rose-900/40 border border-rose-500/30'
-                  : 'bg-slate-950 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:text-white'
+                  ? 'bg-indigo-600 text-white border border-indigo-500 shadow-sm'
+                  : 'bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 hover:text-white'
               }`}
             >
               {s.label}
@@ -125,6 +129,7 @@ export function PayoutsManagement() {
           ))}
         </div>
       </div>
+
 
       {loading ? (
         <div className="p-12 flex justify-center">
